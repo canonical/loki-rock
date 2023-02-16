@@ -1,0 +1,44 @@
+name: loki
+summary: Loki in a ROCK.
+description: "Loki is a horizontally scalable, highly available, multi-tenant log aggregation system inspired by Prometheus."
+version: "2.7.3"
+base: ubuntu:22.04
+license: AGPL-3.0
+entrypoint: [/bin/loki]
+cmd: [--config.file=/etc/loki/loki-local-config.yaml]
+platforms:
+  amd64:
+parts:
+  loki:
+    plugin: go
+    source: https://github.com/grafana/loki
+    source-type: git
+    source-tag: "v2.7.3"
+    build-snaps:
+      - go/1.19/stable
+    build-environment:
+      - BUILD_IN_CONTAINER: "false"
+    stage-packages:
+      - libsystemd-dev
+    override-build: |
+      go build ./cmd/loki
+      go build ./cmd/logcli
+      go build ./cmd/loki-canary
+      go build --tags=promtail_journal_enabled ./clients/cmd/promtail
+      install -D -m755 ./loki ${CRAFT_PART_INSTALL}/usr/bin/loki
+      install -D -m755 ./loki-canary ${CRAFT_PART_INSTALL}/usr/bin/loki-canary
+      install -D -m755 ./logcli ${CRAFT_PART_INSTALL}/usr/bin/logcli
+      install -D -m755 ./promtail ${CRAFT_PART_INSTALL}/usr/bin/promtail
+    stage:
+      - usr/bin/loki
+      - usr/bin/loki-canary
+      - usr/bin/logcli
+      - usr/bin/promtail
+  default-config:
+    plugin: dump
+    source: .
+    organize: 
+      loki-local-config.yaml: etc/loki/loki-local-config.yaml
+    stage:
+      - etc/loki/loki-local-config.yaml
+
