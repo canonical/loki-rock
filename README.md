@@ -1,6 +1,6 @@
 # loki-rock
 
-[![Build ROCK](https://github.com/canonical/loki-rock/actions/workflows/build.yaml/badge.svg)](https://github.com/canonical/loki-rock/actions/workflows/build.yaml)
+[![Build ROCK](https://github.com/canonical/loki-rock/actions/workflows/build-rock.yaml/badge.svg)](https://github.com/canonical/loki-rock/actions/workflows/build-rock.yaml)
 
 Automation for building a ROCK for Loki. Every fourth hour, the automation checks whether 
 a new release has been cut in the upstream Loki repo, and if so, creates a pull request with 
