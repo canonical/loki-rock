@@ -18,7 +18,7 @@ parts:
       - go/1.19/stable
     build-environment:
       - BUILD_IN_CONTAINER: "false"
-    stage-packages:
+    build-packages:
       - libsystemd-dev
     override-build: |
       go build ./cmd/loki
