@@ -4,10 +4,16 @@ description: "Loki is a horizontally scalable, highly available, multi-tenant lo
 version: "2.8.1"
 base: ubuntu:22.04
 license: AGPL-3.0
-entrypoint: [/bin/loki]
-cmd: [--config.file=/etc/loki/loki-local-config.yaml]
+
+services:
+  loki:
+    command: /bin/loki --config.file=/etc/loki/loki-local-config.yaml
+    override: replace
+    startup: enabled
+
 platforms:
   amd64:
+
 parts:
   loki:
     plugin: go
