@@ -14,3 +14,9 @@ Automation takes care of:
 * pulling upstream releases, creating a PR with the necessary files to be manually reviewed;
 * releasing to GHCR at [ghcr.io/canonical/loki:dev](https://ghcr.io/canonical/loki:dev), when merging to main, for development purposes.
 
+## Image registries
+
+| Registry  | Link                                                                                     |
+| --------- | ---------------------------------------------------------------------------------------- |
+| ghcr      | [ghcr.io/canonical/loki:dev](https://github.com/canonical/loki-rock/pkgs/container/loki) |
+| dockerhub | [ubuntu/loki](https://hub.docker.com/r/ubuntu/loki)                                      |
