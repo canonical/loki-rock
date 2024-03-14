@@ -41,10 +41,14 @@ parts:
       loki-local-config.yaml: etc/loki/loki-local-config.yaml
     stage:
       - etc/loki/loki-local-config.yaml
+  ca-certs:
+    plugin: nil
+    overlay-packages: [ca-certificates]
   deb-security-manifest:
     plugin: nil
     after:
       - loki
+      - ca-certs
     override-prime: |
       set -x
       mkdir -p $CRAFT_PRIME/usr/share/rocks/
