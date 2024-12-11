@@ -35,12 +35,6 @@ schema_config:
         prefix: index_
         period: 24h
 
-pattern_ingester:
-  enabled: true
-  metric_aggregation:
-    enabled: true
-    loki_address: localhost:3100
-
 ruler:
   alertmanager_url: http://localhost:9093
 
