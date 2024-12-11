@@ -1,0 +1,17 @@
+process:
+  loki:
+    running: true
+package:
+  ca-certificates:
+    installed: true
+http:
+  loki-ready:
+    url: http://localhost:3100/ready
+    status:
+      - status: 200
+        body: ready
+      - status: 503
+        body: 'Ingester not ready: waiting for 15s after being ready'
+  loki-config:
+    url: http://localhost:3100/config
+    status: 200
