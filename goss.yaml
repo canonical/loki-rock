@@ -5,9 +5,6 @@ http:
   config:
     status: 200
     url: http://localhost:3100/config
-  ready:
-    status: 200
-    url: http://localhost:3100/ready
   buildinfo:
     status: 200
     url: http://localhost:3100/loki/api/v1/status/buildinfo
