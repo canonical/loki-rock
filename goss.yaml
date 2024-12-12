@@ -1,0 +1,10 @@
+process:
+  loki:
+    running: true
+http:
+  config:
+    status: 200
+    url: http://localhost:3100/config
+  buildinfo:
+    status: 200
+    url: http://localhost:3100/loki/api/v1/status/buildinfo
