@@ -24,16 +24,18 @@ parts:
     build-packages:
       - libsystemd-dev
     override-build: |
-      PROMTAIL_JOURNAL_ENABLED=1 make -j$(grep -c ^processor /proc/cpuinfo) all
+      PROMTAIL_JOURNAL_ENABLED=1 make -j$(grep -c ^processor /proc/cpuinfo) all lokitool
       install -D -m755 ./cmd/loki/loki ${CRAFT_PART_INSTALL}/usr/bin/loki
       install -D -m755 ./cmd/loki-canary/loki-canary ${CRAFT_PART_INSTALL}/usr/bin/loki-canary
       install -D -m755 ./cmd/logcli/logcli ${CRAFT_PART_INSTALL}/usr/bin/logcli
       install -D -m755 ./clients/cmd/promtail/promtail ${CRAFT_PART_INSTALL}/usr/bin/promtail
+      install -D -m755 ./cmd/lokitool/lokitool ${CRAFT_PART_INSTALL}/usr/bin/lokitool
     stage:
       - usr/bin/loki
       - usr/bin/loki-canary
       - usr/bin/logcli
       - usr/bin/promtail
+      - usr/bin/lokitool
   default-config:
     plugin: dump
     source: .
