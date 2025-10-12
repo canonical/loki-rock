@@ -1,0 +1,57 @@
+name: loki
+summary: Loki in a ROCK.
+description: "Loki is a horizontally scalable, highly available, multi-tenant log aggregation system inspired by Prometheus."
+version: "3.5.6"
+base: ubuntu@24.04
+license: AGPL-3.0
+services:
+  loki:
+    command: /bin/loki --config.file=/etc/loki/loki-local-config.yaml
+    override: replace
+    startup: enabled
+platforms:
+  amd64:
+parts:
+  loki:
+    plugin: go
+    source: https://github.com/grafana/loki
+    source-type: git
+    source-tag: "v3.5.6"
+    build-snaps:
+      - go/1.24/stable
+    build-environment:
+      - BUILD_IN_CONTAINER: "false"
+    build-packages:
+      - libsystemd-dev
+    override-build: |
+      PROMTAIL_JOURNAL_ENABLED=1 make -j$(grep -c ^processor /proc/cpuinfo) all lokitool
+      install -D -m755 ./cmd/loki/loki ${CRAFT_PART_INSTALL}/usr/bin/loki
+      install -D -m755 ./cmd/loki-canary/loki-canary ${CRAFT_PART_INSTALL}/usr/bin/loki-canary
+      install -D -m755 ./cmd/logcli/logcli ${CRAFT_PART_INSTALL}/usr/bin/logcli
+      install -D -m755 ./clients/cmd/promtail/promtail ${CRAFT_PART_INSTALL}/usr/bin/promtail
+      install -D -m755 ./cmd/lokitool/lokitool ${CRAFT_PART_INSTALL}/usr/bin/lokitool
+    stage:
+      - usr/bin/loki
+      - usr/bin/loki-canary
+      - usr/bin/logcli
+      - usr/bin/promtail
+      - usr/bin/lokitool
+  default-config:
+    plugin: dump
+    source: .
+    organize:
+      loki-local-config.yaml: etc/loki/loki-local-config.yaml
+    stage:
+      - etc/loki/loki-local-config.yaml
+  ca-certs:
+    plugin: nil
+    overlay-packages: [ca-certificates]
+  deb-security-manifest:
+    plugin: nil
+    after:
+      - loki
+      - ca-certs
+    override-prime: |
+      set -x
+      mkdir -p $CRAFT_PRIME/usr/share/rocks/
+      (echo "# os-release" && cat /etc/os-release && echo "# dpkg-query" && dpkg-query --admindir=$CRAFT_PRIME/var/lib/dpkg/ -f '${db:Status-Abbrev},${binary:Package},${Version},${source:Package},${Source:Version}\n' -W) > $CRAFT_PRIME/usr/share/rocks/dpkg.query
