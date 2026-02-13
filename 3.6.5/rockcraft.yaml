@@ -18,7 +18,7 @@ parts:
     source-type: git
     source-tag: "v3.6.5"
     build-snaps:
-      - go/1.24/stable
+      - go/1.25/candidate
     build-environment:
       - BUILD_IN_CONTAINER: "false"
     build-packages:
