@@ -24,6 +24,9 @@ parts:
     build-packages:
       - libsystemd-dev
     override-build: |
+      go get github.com/grafana/dskit@de42b217b3c194abdd087b69379b1a201a6f6887
+      go mod tidy
+      go mod vendor
       PROMTAIL_JOURNAL_ENABLED=1 make -j$(grep -c ^processor /proc/cpuinfo) all lokitool
       install -D -m755 ./cmd/loki/loki ${CRAFT_PART_INSTALL}/usr/bin/loki
       install -D -m755 ./cmd/loki-canary/loki-canary ${CRAFT_PART_INSTALL}/usr/bin/loki-canary
