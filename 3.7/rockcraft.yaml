@@ -1,7 +1,7 @@
 name: loki
 summary: Loki in a ROCK.
 description: "Loki is a horizontally scalable, highly available, multi-tenant log aggregation system inspired by Prometheus."
-version: "3.7.3"
+version: "3.7.6"
 base: ubuntu@26.04
 license: AGPL-3.0
 services:
@@ -16,7 +16,7 @@ parts:
     plugin: go
     source: https://github.com/grafana/loki
     source-type: git
-    source-tag: "v3.7.3"
+    source-tag: "v3.7.6"
     build-snaps:
       - go/1.26/candidate
     build-environment:
