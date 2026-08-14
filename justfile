@@ -2,7 +2,7 @@ set allow-duplicate-recipes
 set allow-duplicate-variables
 import? 'rocks.just'
 
-lts_releases := '{"3.7": "2031-05-01"}'
+source_repo := 'grafana/loki'
 
 [private]
 @default:
